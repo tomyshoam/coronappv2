@@ -1,0 +1,119 @@
+.drawer {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  border-radius: 25px 25px 0 0;
+  background: white;
+  z-index: 1000;
+  &-drag {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .bar {
+      height: 4px;
+      border-radius: 5px;
+      width: 30px;
+      background: #aab7c2;
+    }
+  }
+  .countryContent {
+    height: 100%;
+    overflow: scroll;
+    &-header {
+      width: 80%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 0 auto;
+      .flag {
+        width: 30px;
+        flex: none;
+        margin-left: 15px;
+      }
+      .details {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin-left: 10px;
+        width: 55%;
+        .title {
+          display: flex;
+          flex-direction: column;
+          font-weight: 500;
+          word-break: break-word;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 16px;
+          margin: 0;
+          margin-bottom: 3px;
+        }
+        .updated {
+          margin: 0;
+          font-size: 11px;
+          color: #aab7c2;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 100%;
+          min-height: 12px;
+        }
+      }
+    }
+    &-stats {
+      width: 90%;
+      max-width: 100%;
+      height: 70%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      margin: -15px auto;
+
+      .stat-el {
+        padding: 15px 0;
+        width: 45%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        background: white;
+        border: 1px solid #efefef;
+        border-radius: 40px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        cursor: default;
+        position: relative;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        &-inner {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
+        &-number {
+          font-size: 25px;
+          font-weight: 700;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 38px;
+        }
+        &-name {
+          color: #aab7c2;
+          font-weight: 700;
+          text-transform: uppercase;
+          font-size: 11px;
+          white-space: nowrap;
+          max-width: 90%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,217 @@
+.searchBar {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+  background: white;
+  height: 50px;
+  z-index: 1000;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .menuIcon {
+    padding: 10px;
+  }
+  &-input {
+    outline: 0px;
+    border: 0px;
+    height: 100%;
+    background: transparent;
+    padding-left: 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    color: #36363c;
+    width: 54%;
+    &::placeholder {
+      opacity: 0.6;
+    }
+    &.ref {
+      color: rgba($color: #36363c, $alpha: 0.6);
+    }
+  }
+  global-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .searchBar-global {
+    font-size: 20px;
+    color: #36363c;
+  }
+  &-filter {
+    position: relative;
+    &--icon {
+      font-size: 18px;
+      color: #36363c;
+      margin-right: 15px;
+    }
+  }
+  .filterOptions {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    width: 170px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    .filterItem {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      .circle {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        margin-left: 23px;
+      }
+      .content {
+        font-size: 14px;
+      }
+      &.infected {
+        .circle {
+          background: rgba(255, 65, 108, 0.2);
+          border: 2px solid rgb(255, 65, 108);
+        }
+      }
+      &.deaths {
+        .circle {
+          background: rgba(134, 67, 230, 0.2);
+          border: 2px solid rgb(134, 67, 230);
+        }
+      }
+      &.recovered {
+        .circle {
+          background: rgba(97, 206, 129, 0.2);
+          border: 2px solid rgb(97, 206, 129);
+        }
+      }
+      &.total {
+        .circle {
+          background: rgba(40, 110, 255, 0.2);
+          border: 2px solid rgb(40, 110, 255);
+        }
+      }
+    }
+  }
+  .coffee {
+    width: 20px;
+    height: 20px;
+    margin-right: 17px;
+    border-radius: 50%;
+    flex: none;
+    background: #ff416c;
+    padding: 3px;
+  }
+}
+.searchBar-overlay {
+  .searchBar {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+    background: white;
+    height: 50px;
+    z-index: 3333;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .overlay {
+    z-index: 3000;
+    position: fixed;
+    overflow: scroll;
+    width: 100vw;
+    height: 100vh;
+    background: #f3f3f3;
+    padding-top: 70px;
+    .searchItem {
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid transparent;
+      flex: none;
+      height: 60px;
+      align-items: center;
+      position: relative;
+      &-index {
+        position: absolute;
+        font-size: 9px;
+        margin-right: 8%;
+        width: 20px;
+        text-align: right;
+        font-weight: 600;
+        color: #aab7c2;
+        height: 20px;
+        margin-top: -2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+      }
+      &-img {
+        width: 30px;
+        margin-right: 15%;
+        .flag {
+          width: 100%;
+        }
+      }
+      &-details {
+        width: 40%;
+        white-space: nowrap;
+        overflow: hidden;
+        flex: none;
+        justify-content: flex-start;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 25px;
+        &--title {
+          font-weight: 600;
+          font-size: 14px;
+          text-overflow: ellipsis;
+          width: 100%;
+          overflow: hidden;
+          min-height: 15px;
+          margin: 0;
+          margin-bottom: 2px;
+        }
+        &--update {
+          font-size: 11px;
+          color: #aab7c2;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 100%;
+          min-height: 12px;
+          margin: 0;
+        }
+      }
+      &-data {
+        margin-left: 10%;
+        font-weight: 600;
+        text-align: center;
+        width: 15%;
+        white-space: nowrap;
+        &.infected {
+          color: rgba(255, 65, 108, 1);
+        }
+        &.recovered {
+          color: rgba(97, 206, 129, 1);
+        }
+        &.deaths {
+          color: rgba(134, 67, 230, 1);
+        }
+      }
+    }
+  }
+}
