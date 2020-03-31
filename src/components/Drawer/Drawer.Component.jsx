@@ -8,6 +8,7 @@ const Drawer = props => {
   const [touchPosition, setTouchPosition] = useState();
   const [loadingData, setLoadingData] = useState(true);
   const [selectedData, setSelectedData] = useState();
+  const [movingClass, setMovingClass] = useState('transitioning');
   useEffect(() => {
     async function fetchUrl(selected) {
       setLoadingData(true);
@@ -29,11 +30,12 @@ const Drawer = props => {
   }, [props.selected]);
 
   return (
-    <div className="drawer" style={{ top: drawerPosition }}>
+    <div className={`drawer ${movingClass}`} style={{ top: drawerPosition }}>
       <div
         className="drawer-drag"
         onTouchStart={event => setTouchStart(event.touches[0].screenY)}
         onTouchMove={event => {
+          setMovingClass('');
           if (
             event.touches[0].screenY > window.screen.height / 100 &&
             event.touches[0].screenY < window.screen.height * 0.8
@@ -43,6 +45,7 @@ const Drawer = props => {
           }
         }}
         onTouchEnd={event => {
+          setMovingClass('transitioning');
           if (touchPosition < touchStart) {
             setDrawerPosition('1vh');
           } else {
