@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Drawer.Styles.scss';
-import { useFetch } from '../../hooks/useFetch';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 const Drawer = props => {
   const [drawerPosition, setDrawerPosition] = useState('80vh');
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [touchStart, setTouchStart] = useState();
   const [touchPosition, setTouchPosition] = useState();
-
-  const [selectedData, loading] = useFetch(
-    props.selected
-      ? `https://api.smartable.ai/coronavirus/stats/${props.selected}`
-      : null
-  );
+  const [loadingData, setLoadingData] = useState(true);
+  const [selectedData, setSelectedData] = useState();
+  useEffect(() => {
+    async function fetchUrl(selected) {
+      setLoadingData(true);
+      setDrawerPosition(document.documentElement.clientHeight * 0.8 + 'px');
+      const response = await fetch(
+        `https://api.smartable.ai/coronavirus/stats/${
+          !selected ? 'global' : selected
+        }`,
+        {
+          headers: { 'Subscription-Key': '09b965281531451ebbd7c97facdc2a7b' }
+        }
+      );
+      const json = await response.json();
+      setSelectedData(json);
+      setDrawerPosition(document.documentElement.clientHeight * 0.65 + 'px');
+      setLoadingData(false);
+    }
+    fetchUrl(props.selected);
+  }, [props.selected]);
 
   return (
     <div className="drawer" style={{ top: drawerPosition }}>
@@ -31,7 +46,9 @@ const Drawer = props => {
           if (touchPosition < touchStart) {
             setDrawerPosition('1vh');
           } else {
-            setDrawerPosition('80vh');
+            setDrawerPosition(
+              document.documentElement.clientHeight * 0.8 + 'px'
+            );
           }
           document.querySelector('.countryContent').scrollTop = 0;
         }}
@@ -39,7 +56,12 @@ const Drawer = props => {
         <div className="bar"></div>
       </div>
       <div className="countryContent">
-        {!loading && selectedData ? (
+        {loadingData ? (
+          <FontAwesomeIcon
+            icon={faCircleNotch}
+            className="fa-spin loadingIcon"
+          />
+        ) : !loadingData && selectedData ? (
           <div className="contryContent-container">
             <div className="countryContent-header">
               <img
@@ -47,13 +69,17 @@ const Drawer = props => {
                 src={
                   selectedData.location.isoCode
                     ? `assets/flags/${selectedData.location.isoCode}.svg`
-                    : `assets/flags/${selectedData.location.countryOrRegion}.svg`
+                    : selectedData.location.countryOrRegion
+                    ? `assets/flags/${selectedData.location.countryOrRegion}.svg`
+                    : `assets/flags/ZZ.svg`
                 }
                 alt=""
               />
               <div className="details">
                 <h2 className="title">
-                  {selectedData.location.countryOrRegion}
+                  {!selectedData.location.countryOrRegion
+                    ? 'גלובלי'
+                    : selectedData.location.countryOrRegion}
                 </h2>
                 <p className="updated">Updated 30 minutes ago</p>
               </div>
@@ -129,95 +155,6 @@ const Drawer = props => {
                     {(
                       (selectedData.stats.totalRecoveredCases /
                         selectedData.stats.totalConfirmedCases) *
-                      100
-                    ).toFixed(2)}
-                    %
-                  </div>
-                  <div className="stat-el-name">אחוז החלמה</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : props.data ? (
-          <div className="countryContent-container">
-            <div className="countryContent-header">
-              <img className="flag" src="assets/flags/ZZ.svg" alt="" />
-              <div className="details">
-                <h2 className="title">גלובאלי</h2>
-                <p className="updated">Updated 30 minutes ago</p>
-              </div>
-            </div>
-            <div className="countryContent-stats">
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {props.data.stats.totalConfirmedCases}
-                  </div>
-                  <div className="stat-el-name">סה״כ המקרים</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {props.data.stats.newlyConfirmedCases}
-                    {'+'}
-                  </div>
-                  <div className="stat-el-name">היום</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {props.data.stats.totalDeaths}
-                  </div>
-                  <div className="stat-el-name">סה״כ נפטרו</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {props.data.stats.newDeaths}
-                    {'+'}
-                  </div>
-                  <div className="stat-el-name">היום</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {props.data.stats.totalRecoveredCases}
-                  </div>
-                  <div className="stat-el-name">סה״כ החלימו</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {props.data.stats.newlyRecoveredCases}
-                    {'+'}
-                  </div>
-                  <div className="stat-el-name">היום</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {(
-                      (props.data.stats.totalDeaths /
-                        props.data.stats.totalConfirmedCases) *
-                      100
-                    ).toFixed(2)}
-                    %
-                  </div>
-                  <div className="stat-el-name">אחוז תמותה</div>
-                </div>
-              </div>
-              <div className="stat-el">
-                <div className="stat-el-inner">
-                  <div className="stat-el-number">
-                    {(
-                      (props.data.stats.totalRecoveredCases /
-                        props.data.stats.totalConfirmedCases) *
                       100
                     ).toFixed(2)}
                     %

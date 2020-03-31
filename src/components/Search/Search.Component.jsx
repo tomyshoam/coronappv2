@@ -17,6 +17,7 @@ const Search = props => {
     } else {
       const overlaySearch = document.getElementById('overlaySearch');
       overlaySearch.value = '';
+      setSearchField('');
     }
   }, [overlayOpen]);
 
