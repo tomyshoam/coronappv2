@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Drawer.Styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import Moment from 'react-moment';
+import 'moment/locale/he';
 const Drawer = props => {
   const [drawerPosition, setDrawerPosition] = useState('80vh');
   const [touchStart, setTouchStart] = useState();
@@ -84,7 +86,13 @@ const Drawer = props => {
                     ? 'גלובלי'
                     : selectedData.location.countryOrRegion}
                 </h2>
-                <p className="updated">Updated 30 minutes ago</p>
+                {/* <p className="updated">Updated 30 minutes ago</p> */}
+                <p className="updated">
+                  <span>עדכון אחרון </span>
+                  <Moment locale="he" fromNow>
+                    {selectedData.updatedDateTime}
+                  </Moment>
+                </p>
               </div>
             </div>
             <div className="countryContent-stats">

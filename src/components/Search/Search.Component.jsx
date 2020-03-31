@@ -3,12 +3,12 @@ import './Search.Styles.scss';
 import { Menu } from 'react-feather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobeEurope, faFilter } from '@fortawesome/free-solid-svg-icons';
-
+import Moment from 'react-moment';
+import 'moment/locale/he';
 const Search = props => {
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchField, setSearchField] = useState('');
-  const [filteredData, setFilteredData] = useState({});
   useEffect(() => {
     if (overlayOpen === true) {
       const overlaySearch = document.getElementById('overlaySearch');
@@ -60,9 +60,6 @@ const Search = props => {
     return filteredData;
   };
 
-  useEffect(() => {
-    setFilteredData(props.data);
-  }, [props.data]);
   return (
     <div className="appbar">
       <div
@@ -169,7 +166,9 @@ const Search = props => {
                         {country.location.countryOrRegion}
                       </h3>
                       <p className="searchItem-details--update">
-                        Updated 30 minutes ago
+                        <Moment locale="he" fromNow>
+                          {filterData(sortData(props.filter)).updatedDateTime}
+                        </Moment>
                       </p>
                     </div>
                     <div className={`searchItem-data ${props.filter}`}>
