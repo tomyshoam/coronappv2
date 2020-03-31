@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import Moment from 'react-moment';
 import 'moment/locale/he';
+import { Line } from 'react-chartjs-2';
 const Drawer = props => {
   const [drawerPosition, setDrawerPosition] = useState('80vh');
   const [touchStart, setTouchStart] = useState();
@@ -11,6 +12,7 @@ const Drawer = props => {
   const [loadingData, setLoadingData] = useState(true);
   const [selectedData, setSelectedData] = useState();
   const [movingClass, setMovingClass] = useState('transitioning');
+  const [dataset, setDataset] = useState([]);
   useEffect(() => {
     async function fetchUrl(selected) {
       setLoadingData(true);
@@ -30,6 +32,120 @@ const Drawer = props => {
     }
     fetchUrl(props.selected);
   }, [props.selected]);
+  const colorInfected = {
+    primary: 'rgba(255, 65, 108, 0.2)',
+    secondary: 'rgba(255, 65, 108, 1)'
+  };
+  const colorDeaths = {
+    primary: 'rgba(135, 66, 230, 0.2)',
+    secondary: 'rgba(135, 66, 230, 1)'
+  };
+  const colorRecovered = {
+    primary: 'rgba(96, 206, 129, 0.2)',
+    secondary: 'rgba(96, 206, 129, 1)'
+  };
+  const colorActive = {
+    primary: 'rgba(40, 110, 255, 0.2)',
+    secondary: 'rgba(40, 110, 255, 1)'
+  };
+  const generateDataset = (dataName, isCompare) => {
+    const newData = [
+      {
+        label: `${
+          dataName === 'infected'
+            ? 'סה״כ מקרים'
+            : dataName === 'deaths'
+            ? 'סה״כ נפטרו'
+            : dataName === 'recovered'
+            ? 'סה״כ החלימו'
+            : dataName === 'active'
+            ? 'סה״כ מקרים פעילים'
+            : null
+        }`,
+        data: selectedData.stats.history.map(entry => {
+          if (dataName === 'infected') {
+            return entry.confirmed;
+          }
+          if (dataName === 'deaths') {
+            return entry.deaths;
+          }
+          if (dataName === 'recovered') {
+            return entry.recovered;
+          }
+          if (dataName === 'active') {
+            return entry.confirmed - (entry.deaths + entry.recovered);
+          }
+        }),
+        backgroundColor: [
+          dataName === 'infected'
+            ? colorInfected.primary
+            : dataName === 'deaths'
+            ? colorDeaths.primary
+            : dataName === 'recovered'
+            ? colorRecovered.primary
+            : dataName === 'active'
+            ? colorActive.primary
+            : null
+        ],
+        borderColor: [
+          dataName === 'infected'
+            ? colorInfected.secondary
+            : dataName === 'deaths'
+            ? colorDeaths.secondary
+            : dataName === 'recovered'
+            ? colorRecovered.secondary
+            : dataName === 'active'
+            ? colorActive.secondary
+            : null
+        ],
+        borderWidth: 2,
+        pointRadius: 0,
+        pointBackgroundColor:
+          dataName === 'infected'
+            ? colorInfected.primary
+            : dataName === 'deaths'
+            ? colorDeaths.primary
+            : dataName === 'recovered'
+            ? colorRecovered.primary
+            : dataName === 'active'
+            ? colorActive.primary
+            : null,
+        pointBorderColor:
+          dataName === 'infected'
+            ? colorInfected.secondary
+            : dataName === 'deaths'
+            ? colorDeaths.secondary
+            : dataName === 'recovered'
+            ? colorRecovered.secondary
+            : dataName === 'active'
+            ? colorActive.secondary
+            : null,
+        pointHitRadius: 20,
+        pointHoverRadius: 10,
+        pointHoverBorderColor:
+          dataName === 'infected'
+            ? colorInfected.secondary
+            : dataName === 'deaths'
+            ? colorDeaths.secondary
+            : dataName === 'recovered'
+            ? colorRecovered.secondary
+            : dataName === 'active'
+            ? colorActive.secondary
+            : null,
+        pointHoverBackgroundColor:
+          dataName === 'infected'
+            ? colorInfected.secondary
+            : dataName === 'deaths'
+            ? colorDeaths.secondary
+            : dataName === 'recovered'
+            ? colorRecovered.secondary
+            : dataName === 'active'
+            ? colorActive.secondary
+            : null
+      }
+    ];
+    return [newData];
+  };
 
   return (
     <div className={`drawer ${movingClass}`} style={{ top: drawerPosition }}>
@@ -172,6 +288,42 @@ const Drawer = props => {
                   </div>
                   <div className="stat-el-name">אחוז החלמה</div>
                 </div>
+              </div>
+              <div className="graphData">
+                <Line
+                  className="chart"
+                  data={{
+                    labels: selectedData.stats.history.map(entry => {
+                      return `${entry.date.split('T')[0].split('-')[2]}/${
+                        entry.date.split('T')[0].split('-')[1]
+                      }`;
+                    }),
+                    datasets: [
+                      {
+                        label: 'Cases',
+                        data: selectedData.stats.history.map(entry => {
+                          return entry.confirmed;
+                        }),
+                        backgroundColor: ['rgba(255, 65, 108, 0.2)'],
+                        borderColor: ['rgba(255, 65, 108, 1)'],
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointBackgroundColor: 'rgba(255, 65, 108, 0.2)',
+                        pointBorderColor: 'rgba(255, 65, 108, 1)',
+                        pointHitRadius: 20,
+                        pointHoverRadius: 10,
+                        pointHoverBorderColor: 'rgba(255, 65, 108, 1)',
+                        pointHoverBackgroundColor: 'rgba(255, 65, 108, 1)'
+                      }
+                    ]
+                  }}
+                  width={document.documentElement.clientWidth * 0.8}
+                  height={document.documentElement.clientHeight * 0.6}
+                  options={{
+                    maintainAspectRatio: false,
+                    legend: { display: false }
+                  }}
+                />
               </div>
             </div>
           </div>
