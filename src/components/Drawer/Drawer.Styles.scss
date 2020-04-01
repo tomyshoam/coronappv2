@@ -1,5 +1,6 @@
 .loadingIcon {
-  color: rgba(54, 54, 60, 0.3);
+  color: var(--text);
+  opacity: 0.3;
   font-size: 30px;
   margin-top: 80px;
 }
@@ -9,7 +10,7 @@
   height: 100vh;
   width: 100vw;
   border-radius: 25px 25px 0 0;
-  background: white;
+  background: var(--card);
   z-index: 1000;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
   &.transitioning {
@@ -25,7 +26,7 @@
       height: 4px;
       border-radius: 5px;
       width: 30px;
-      background: #aab7c2;
+      background: var(--icon);
     }
   }
   .countryContent {
@@ -41,6 +42,7 @@
       justify-content: flex-start;
       align-items: center;
       margin: 0 auto;
+      color: var(--text);
       .flag {
         width: 30px;
         flex: none;
@@ -62,6 +64,7 @@
           font-size: 16px;
           margin: 0;
           margin-bottom: 3px;
+          // color: var(--text);
         }
         .updated {
           margin: 0;
@@ -92,13 +95,11 @@
         align-items: center;
         justify-content: center;
         flex: none;
-        background: white;
-        border: 1px solid #efefef;
+        background: var(--card);
+        border: 1px solid var(--border);
         border-radius: 40px;
         padding-top: 20px;
         padding-bottom: 20px;
-        cursor: default;
-
         margin-top: 15px;
         margin-bottom: 15px;
         &-inner {
@@ -115,6 +116,7 @@
           justify-content: center;
           align-items: center;
           height: 38px;
+          color: var(--text);
         }
         &-name {
           color: #aab7c2;
@@ -140,6 +142,7 @@
         justify-content: space-between;
         align-items: center;
         margin: 0 auto 20px auto;
+        color: var(--text);
         .title-container {
           .title {
             font-weight: 600;
@@ -188,7 +191,6 @@
             }
             .transparent {
               position: fixed;
-              // background: blue;
               width: 100vw;
               height: 100vh;
               top: 0;
@@ -200,7 +202,7 @@
               left: 0;
               width: 180px;
               padding: 10px;
-              background: white;
+              background: var(--background);
               border-radius: 15px;
               box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
               &-option {

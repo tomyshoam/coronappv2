@@ -1,0 +1,171 @@
+.menu {
+  &-overlay {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 5000;
+    background: rgba(0, 0, 0, 0.38);
+  }
+  &-nav {
+    top: 0;
+    position: absolute;
+    width: 85vw;
+    max-width: 280px;
+    height: 100vh;
+    background: var(--card);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+    z-index: 99999;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    .header {
+      font-size: 17px;
+      font-weight: 500;
+      margin: 22px 10% 20px 0;
+      color: var(--text);
+    }
+    .sections {
+      margin-right: 10%;
+      .section-item {
+        width: 100%;
+        cursor: pointer;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        font-size: 14px;
+        font-weight: 500;
+        .icon {
+          font-size: 20px;
+          margin-left: 30px;
+          color: var(--icon);
+          width: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: scale(0.8);
+        }
+        .title {
+          font-size: 14px;
+          color: var(--text);
+          font-weight: 200;
+        }
+      }
+    }
+    .donate-btn {
+      width: 80%;
+      background: #ff416c;
+      color: #fff;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+      align-items: center;
+      cursor: pointer;
+      outline: 0px;
+      border: 0px;
+      height: 40px;
+      border-radius: 5px;
+      white-space: nowrap;
+      font-weight: 600;
+      padding-left: 20px;
+      padding-right: 20px;
+      align-self: center;
+      .coffee {
+        width: 25px;
+        height: 25px;
+        margin-left: 10px;
+        margin-right: -5px;
+      }
+    }
+    .preferences {
+      margin-top: 15px;
+      .title {
+        color: var(--icon);
+        font-size: 12px;
+        font-weight: 800;
+        margin-right: 10%;
+        margin-bottom: 20px;
+      }
+      .theme {
+        display: flex;
+        &-name {
+          padding-right: 35px;
+          font-weight: 600;
+          font-size: 12px;
+          white-space: nowrap;
+          width: 30%;
+          color: var(--text);
+        }
+        .dark-mode-toggle {
+          position: relative;
+          border-radius: 40px;
+          transform: scale(0.6);
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          & input[type='checkbox'] {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: 0px;
+            cursor: pointer;
+            opacity: 0;
+            z-index: 2;
+          }
+          & input[type='checkbox'] ~ label {
+            position: relative;
+            cursor: pointer;
+            color: #36363c;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0px 2px 25px #d9d9d9;
+            border-radius: 40px;
+            transition: 0.2s ease background-color, 0.2s ease opacity;
+            height: 40px;
+            width: 65px;
+            &::before {
+              content: '';
+              height: 30px;
+              width: 30px;
+              background: #ffe707;
+              position: absolute;
+              top: 5px;
+              right: 5px;
+              border-radius: 50%;
+            }
+            &::after {
+              content: '';
+              height: 25px;
+              width: 25px;
+              background: black;
+              position: absolute;
+              top: 2px;
+              right: -30px;
+              border-radius: 50%;
+            }
+          }
+          & input[type='checkbox']:checked ~ label {
+            background: black;
+            box-shadow: 0px 2px 25px #d9d9d9;
+            &::before {
+              right: 30px;
+              background: white;
+            }
+            &::after {
+              right: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

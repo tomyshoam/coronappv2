@@ -187,7 +187,7 @@ const Search = props => {
         </div>
       </div>
       <div className="searchBar">
-        <i className="menuIcon">
+        <i className="menuIcon" onClick={() => props.setMenu(true)}>
           <Menu size={24} />
         </i>
         <div

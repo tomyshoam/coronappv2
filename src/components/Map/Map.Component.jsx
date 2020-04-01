@@ -90,7 +90,14 @@ function MapComponent(props) {
       zoomControl={false}
       worldCopyJump={true}
     >
-      <TileLayer url="https://api.mapbox.com/styles/v1/tomyshoam/ck7zbevsa0ror1iqwj807j3fx/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidG9teXNob2FtIiwiYSI6ImNqemZrbnJwdTBjcG0zY2x0ZXo0NTJ0NjkifQ.pALbvMD8IjdTU0olF3INxQ" />
+      {/* <TileLayer url="https://api.mapbox.com/styles/v1/tomyshoam/ck7zbevsa0ror1iqwj807j3fx/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidG9teXNob2FtIiwiYSI6ImNqemZrbnJwdTBjcG0zY2x0ZXo0NTJ0NjkifQ.pALbvMD8IjdTU0olF3INxQ" /> */}
+      <TileLayer
+        url={
+          props.theme === 'dark'
+            ? `https://api.mapbox.com/styles/v1/tomyshoam/ck8hedw4q0mkw1ilidx9t8pm5/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidG9teXNob2FtIiwiYSI6ImNqemZrbnJwdTBjcG0zY2x0ZXo0NTJ0NjkifQ.pALbvMD8IjdTU0olF3INxQ`
+            : `https://api.mapbox.com/styles/v1/tomyshoam/ck7zbevsa0ror1iqwj807j3fx/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidG9teXNob2FtIiwiYSI6ImNqemZrbnJwdTBjcG0zY2x0ZXo0NTJ0NjkifQ.pALbvMD8IjdTU0olF3INxQ`
+        }
+      />
       {props.data
         ? sortData().map((country, index) =>
             (country.location.lat || country.location.long) &&
