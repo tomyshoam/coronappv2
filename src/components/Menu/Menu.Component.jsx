@@ -9,8 +9,7 @@ import {
   faCode,
   faBook,
   faPlusSquare,
-  faAt,
-  faBolt
+  faAt
 } from '@fortawesome/free-solid-svg-icons';
 const Menu = props => {
   return (
