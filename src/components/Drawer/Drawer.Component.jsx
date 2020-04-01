@@ -12,7 +12,11 @@ const Drawer = props => {
   const [loadingData, setLoadingData] = useState(true);
   const [selectedData, setSelectedData] = useState();
   const [movingClass, setMovingClass] = useState('transitioning');
-  const [dataset, setDataset] = useState([]);
+  const [chartFilterIsOpen, setChartFilterIsOpen] = useState(false);
+  const [chartClass, setChartClass] = useState('infected');
+  const [compareFilterIsOpen, setCompareFilterIsOpen] = useState(false);
+  const [compareClass, setCompareClass] = useState('none');
+  const [dataset, setDataset] = useState();
   useEffect(() => {
     async function fetchUrl(selected) {
       setLoadingData(true);
@@ -29,6 +33,9 @@ const Drawer = props => {
       setSelectedData(json);
       setDrawerPosition(document.documentElement.clientHeight * 0.65 + 'px');
       setLoadingData(false);
+      setDataset();
+      setChartClass('infected');
+      setCompareClass('none');
     }
     fetchUrl(props.selected);
   }, [props.selected]);
@@ -48,103 +55,121 @@ const Drawer = props => {
     primary: 'rgba(40, 110, 255, 0.2)',
     secondary: 'rgba(40, 110, 255, 1)'
   };
-  const generateDataset = (dataName, isCompare) => {
-    const newData = [
-      {
-        label: `${
-          dataName === 'infected'
-            ? 'סה״כ מקרים'
-            : dataName === 'deaths'
-            ? 'סה״כ נפטרו'
-            : dataName === 'recovered'
-            ? 'סה״כ החלימו'
-            : dataName === 'active'
-            ? 'סה״כ מקרים פעילים'
-            : null
-        }`,
-        data: selectedData.stats.history.map(entry => {
-          if (dataName === 'infected') {
-            return entry.confirmed;
-          }
-          if (dataName === 'deaths') {
-            return entry.deaths;
-          }
-          if (dataName === 'recovered') {
-            return entry.recovered;
-          }
-          if (dataName === 'active') {
-            return entry.confirmed - (entry.deaths + entry.recovered);
-          }
-        }),
-        backgroundColor: [
-          dataName === 'infected'
-            ? colorInfected.primary
-            : dataName === 'deaths'
-            ? colorDeaths.primary
-            : dataName === 'recovered'
-            ? colorRecovered.primary
-            : dataName === 'active'
-            ? colorActive.primary
-            : null
-        ],
-        borderColor: [
-          dataName === 'infected'
-            ? colorInfected.secondary
-            : dataName === 'deaths'
-            ? colorDeaths.secondary
-            : dataName === 'recovered'
-            ? colorRecovered.secondary
-            : dataName === 'active'
-            ? colorActive.secondary
-            : null
-        ],
-        borderWidth: 2,
-        pointRadius: 0,
-        pointBackgroundColor:
-          dataName === 'infected'
-            ? colorInfected.primary
-            : dataName === 'deaths'
-            ? colorDeaths.primary
-            : dataName === 'recovered'
-            ? colorRecovered.primary
-            : dataName === 'active'
-            ? colorActive.primary
-            : null,
-        pointBorderColor:
-          dataName === 'infected'
-            ? colorInfected.secondary
-            : dataName === 'deaths'
-            ? colorDeaths.secondary
-            : dataName === 'recovered'
-            ? colorRecovered.secondary
-            : dataName === 'active'
-            ? colorActive.secondary
-            : null,
-        pointHitRadius: 20,
-        pointHoverRadius: 10,
-        pointHoverBorderColor:
-          dataName === 'infected'
-            ? colorInfected.secondary
-            : dataName === 'deaths'
-            ? colorDeaths.secondary
-            : dataName === 'recovered'
-            ? colorRecovered.secondary
-            : dataName === 'active'
-            ? colorActive.secondary
-            : null,
-        pointHoverBackgroundColor:
-          dataName === 'infected'
-            ? colorInfected.secondary
-            : dataName === 'deaths'
-            ? colorDeaths.secondary
-            : dataName === 'recovered'
-            ? colorRecovered.secondary
-            : dataName === 'active'
-            ? colorActive.secondary
-            : null
-      }
-    ];
-    return [newData];
+  const generateDataset = dataName => {
+    const newData = {
+      label: `${
+        dataName === 'infected'
+          ? 'סה״כ מקרים'
+          : dataName === 'deaths'
+          ? 'סה״כ נפטרו'
+          : dataName === 'recovered'
+          ? 'סה״כ החלימו'
+          : dataName === 'active'
+          ? 'סה״כ מקרים פעילים'
+          : null
+      }`,
+      data: selectedData.stats.history.map(entry => {
+        if (dataName === 'infected') {
+          return entry.confirmed;
+        }
+        if (dataName === 'deaths') {
+          return entry.deaths;
+        }
+        if (dataName === 'recovered') {
+          return entry.recovered;
+        }
+        if (dataName === 'active') {
+          return entry.confirmed - (entry.deaths + entry.recovered);
+        } else {
+          return null;
+        }
+      }),
+      backgroundColor: [
+        dataName === 'infected'
+          ? colorInfected.primary
+          : dataName === 'deaths'
+          ? colorDeaths.primary
+          : dataName === 'recovered'
+          ? colorRecovered.primary
+          : dataName === 'active'
+          ? colorActive.primary
+          : null
+      ],
+      borderColor: [
+        dataName === 'infected'
+          ? colorInfected.secondary
+          : dataName === 'deaths'
+          ? colorDeaths.secondary
+          : dataName === 'recovered'
+          ? colorRecovered.secondary
+          : dataName === 'active'
+          ? colorActive.secondary
+          : null
+      ],
+      borderWidth: 2,
+      pointRadius: 0,
+      pointBackgroundColor:
+        dataName === 'infected'
+          ? colorInfected.primary
+          : dataName === 'deaths'
+          ? colorDeaths.primary
+          : dataName === 'recovered'
+          ? colorRecovered.primary
+          : dataName === 'active'
+          ? colorActive.primary
+          : null,
+      pointBorderColor:
+        dataName === 'infected'
+          ? colorInfected.secondary
+          : dataName === 'deaths'
+          ? colorDeaths.secondary
+          : dataName === 'recovered'
+          ? colorRecovered.secondary
+          : dataName === 'active'
+          ? colorActive.secondary
+          : null,
+      pointHitRadius: 20,
+      pointHoverRadius: 10,
+      pointHoverBorderColor:
+        dataName === 'infected'
+          ? colorInfected.secondary
+          : dataName === 'deaths'
+          ? colorDeaths.secondary
+          : dataName === 'recovered'
+          ? colorRecovered.secondary
+          : dataName === 'active'
+          ? colorActive.secondary
+          : null,
+      pointHoverBackgroundColor:
+        dataName === 'infected'
+          ? colorInfected.secondary
+          : dataName === 'deaths'
+          ? colorDeaths.secondary
+          : dataName === 'recovered'
+          ? colorRecovered.secondary
+          : dataName === 'active'
+          ? colorActive.secondary
+          : null
+    };
+    return newData;
+  };
+
+  const chartFilterHandler = mod => {
+    setChartClass(mod);
+    if (!dataset || dataset.length === 1) {
+      setDataset([generateDataset(mod)]);
+    } else {
+      setDataset([generateDataset(mod), dataset[1]]);
+    }
+  };
+
+  const compareFilterHandler = mod => {
+    setCompareClass(mod);
+    if (!dataset) {
+      setDataset([generateDataset('infected'), generateDataset(mod)]);
+    } else {
+      setDataset([dataset[0], generateDataset(mod)]);
+    }
   };
 
   return (
@@ -289,7 +314,136 @@ const Drawer = props => {
                   <div className="stat-el-name">אחוז החלמה</div>
                 </div>
               </div>
-              <div className="graphData">
+            </div>
+            <div className="countryContent-graph">
+              <div className="countryContent-graph-header">
+                <div className="title-container">
+                  <h2 className="title">
+                    {!selectedData.location.countryOrRegion
+                      ? 'גלובלי'
+                      : selectedData.location.countryOrRegion}{' '}
+                    | סה״כ מקרים
+                  </h2>
+                  <p className="updated">
+                    <Moment locale="he" fromNow>
+                      {selectedData.updatedDateTime}
+                    </Moment>
+                  </p>
+                </div>
+                <div className="filter-container">
+                  <div
+                    id="filter"
+                    className={`filter ${chartClass}`}
+                    onClick={() => setChartFilterIsOpen(!chartFilterIsOpen)}
+                  >
+                    <div
+                      className="transparent"
+                      onClick={() => {
+                        console.log('trans');
+                        setChartFilterIsOpen(!chartFilterIsOpen);
+                        console.log(chartFilterIsOpen);
+                      }}
+                      style={{ display: chartFilterIsOpen ? 'block' : 'none' }}
+                    ></div>
+                    <div
+                      className="filterOptions"
+                      style={{ display: chartFilterIsOpen ? 'block' : 'none' }}
+                    >
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => chartFilterHandler('infected')}
+                      >
+                        <div className="icon infected"></div>
+                        <p className="title">סה״כ מקרים</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => chartFilterHandler('deaths')}
+                      >
+                        <div className="icon deaths"></div>
+                        <p className="title">סה״כ נפטרו</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => chartFilterHandler('recovered')}
+                      >
+                        <div className="icon recovered"></div>
+                        <p className="title">סה״כ החלימו</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => chartFilterHandler('active')}
+                      >
+                        <div className="icon active"></div>
+                        <p className="title">סה״כ מקרים פעילים</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    id="compare"
+                    className={`filter ${compareClass}`}
+                    onClick={() => {
+                      setChartFilterIsOpen(false);
+                      setCompareFilterIsOpen(!compareFilterIsOpen);
+                    }}
+                  >
+                    <div
+                      className="transparent"
+                      onClick={() => {
+                        console.log('trans');
+                        setCompareFilterIsOpen(!compareFilterIsOpen);
+                        console.log(compareFilterIsOpen);
+                      }}
+                      style={{
+                        display: compareFilterIsOpen ? 'block' : 'none'
+                      }}
+                    ></div>
+                    <div
+                      className="filterOptions"
+                      style={{
+                        display: compareFilterIsOpen ? 'block' : 'none'
+                      }}
+                    >
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => compareFilterHandler('none')}
+                      >
+                        <div className="icon none"></div>
+                        <p className="title">ריק</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => compareFilterHandler('infected')}
+                      >
+                        <div className="icon infected"></div>
+                        <p className="title">סה״כ מקרים</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => compareFilterHandler('deaths')}
+                      >
+                        <div className="icon deaths"></div>
+                        <p className="title">סה״כ נפטרו</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => compareFilterHandler('recovered')}
+                      >
+                        <div className="icon recovered"></div>
+                        <p className="title">סה״כ החלימו</p>
+                      </div>
+                      <div
+                        className="filterOptions-option"
+                        onClick={() => compareFilterHandler('active')}
+                      >
+                        <div className="icon active"></div>
+                        <p className="title">סה״כ מקרים פעילים</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="countryContent-graph-container">
                 <Line
                   className="chart"
                   data={{
@@ -298,24 +452,26 @@ const Drawer = props => {
                         entry.date.split('T')[0].split('-')[1]
                       }`;
                     }),
-                    datasets: [
-                      {
-                        label: 'Cases',
-                        data: selectedData.stats.history.map(entry => {
-                          return entry.confirmed;
-                        }),
-                        backgroundColor: ['rgba(255, 65, 108, 0.2)'],
-                        borderColor: ['rgba(255, 65, 108, 1)'],
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        pointBackgroundColor: 'rgba(255, 65, 108, 0.2)',
-                        pointBorderColor: 'rgba(255, 65, 108, 1)',
-                        pointHitRadius: 20,
-                        pointHoverRadius: 10,
-                        pointHoverBorderColor: 'rgba(255, 65, 108, 1)',
-                        pointHoverBackgroundColor: 'rgba(255, 65, 108, 1)'
-                      }
-                    ]
+                    datasets: !dataset
+                      ? [
+                          {
+                            label: 'Cases',
+                            data: selectedData.stats.history.map(entry => {
+                              return entry.confirmed;
+                            }),
+                            backgroundColor: ['rgba(255, 65, 108, 0.2)'],
+                            borderColor: ['rgba(255, 65, 108, 1)'],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointBackgroundColor: 'rgba(255, 65, 108, 0.2)',
+                            pointBorderColor: 'rgba(255, 65, 108, 1)',
+                            pointHitRadius: 20,
+                            pointHoverRadius: 10,
+                            pointHoverBorderColor: 'rgba(255, 65, 108, 1)',
+                            pointHoverBackgroundColor: 'rgba(255, 65, 108, 1)'
+                          }
+                        ]
+                      : dataset
                   }}
                   width={document.documentElement.clientWidth * 0.8}
                   height={document.documentElement.clientHeight * 0.6}
