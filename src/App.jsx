@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useFetch } from './hooks/useFetch';
-
 import { MapComponent } from './components/Map';
 import { Search } from './components/Search';
 import { Drawer } from './components/Drawer';
 import { Menu } from './components/Menu';
+import { BrowserRouter } from 'react-router-dom';
 function App() {
   const [geoloc, setGeoloc] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -42,32 +42,39 @@ function App() {
 
   return (
     <div className="App">
-      <Menu menu={menu} setMenu={setMenu} setTheme={setTheme} />
-      <Search
-        setMenu={setMenu}
-        filter={filter}
-        data={!loading ? data : null}
-        setGeoloc={setGeoloc}
-        setFilter={setFilter}
-        setSelected={setSelected}
-      />
-      <MapComponent
-        theme={theme}
-        setSelected={setSelected}
-        geoloc={geoloc ? geoloc : null}
-        filter={filter}
-        colorScheme={
-          filter === 'deaths'
-            ? deaths
-            : filter === 'recovered'
-            ? recovered
-            : filter === 'active'
-            ? active
-            : infected
-        }
-        data={!loading ? data : null}
-      />
-      <Drawer data={!loading ? data : null} selected={selected} />
+      <BrowserRouter>
+        <Menu
+          menu={menu}
+          setMenu={setMenu}
+          setTheme={setTheme}
+          setSelected={setSelected}
+        />
+        <Search
+          setMenu={setMenu}
+          filter={filter}
+          data={!loading ? data : null}
+          setGeoloc={setGeoloc}
+          setFilter={setFilter}
+          setSelected={setSelected}
+        />
+        <MapComponent
+          theme={theme}
+          setSelected={setSelected}
+          geoloc={geoloc ? geoloc : null}
+          filter={filter}
+          colorScheme={
+            filter === 'deaths'
+              ? deaths
+              : filter === 'recovered'
+              ? recovered
+              : filter === 'active'
+              ? active
+              : infected
+          }
+          data={!loading ? data : null}
+        />
+        <Drawer data={!loading ? data : null} selected={selected} />
+      </BrowserRouter>
     </div>
   );
 }

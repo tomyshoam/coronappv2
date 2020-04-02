@@ -11,6 +11,7 @@ import {
   faPlusSquare,
   faAt
 } from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
 const Menu = props => {
   return (
     <div className="menu">
@@ -25,15 +26,32 @@ const Menu = props => {
       >
         <h1 className="header">אפליקציית הקורונה</h1>
         <div className="sections">
-          <div className="section-item">
+          <NavLink
+            exact
+            to="/"
+            className="section-item"
+            activeClassName="selected"
+            onClick={() => props.setMenu(!props.menu)}
+          >
             <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
             <p className="title">מפה</p>
-          </div>
-          <div className="section-item">
+          </NavLink>
+          <NavLink
+            to="/countries"
+            className="section-item"
+            activeClassName="selected"
+            onClick={() => props.setMenu(!props.menu)}
+          >
             <FontAwesomeIcon icon={faFlagCheckered} className="icon" />
             <p className="title">מדינות</p>
-          </div>
-          <div className="section-item">
+          </NavLink>
+          <div
+            className="section-item"
+            onClick={() => {
+              props.setSelected(null);
+              props.setMenu(!props.menu);
+            }}
+          >
             <FontAwesomeIcon icon={faGlobeEurope} className="icon" />
             <p className="title">גלובלי</p>
           </div>
@@ -53,15 +71,15 @@ const Menu = props => {
             <FontAwesomeIcon icon={faPlusSquare} className="icon" />
             <p className="title">דווחו על מקרה</p>
           </div>
-          <div className="section-item">
+          <a className="section-item" href="mailto: tomyshoam@gmail.com">
             <FontAwesomeIcon icon={faAt} className="icon" />
             <p className="title">צור קשר</p>
-          </div>
+          </a>
         </div>
-        <button className="donate-btn">
+        <a className="donate-btn" href="https://www.google.com">
           <img src="./assets/coffee-buy.png" alt="Coffee" className="coffee" />
           קנו לנו קפה
-        </button>
+        </a>
         <div className="preferences">
           <h4 className="title">העדפות</h4>
           <div className="theme">

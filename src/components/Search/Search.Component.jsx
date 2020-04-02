@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './Search.Styles.scss';
-import { Menu } from 'react-feather';
+import { Menu, ArrowRight } from 'react-feather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobeEurope, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Moment from 'react-moment';
 import 'moment/locale/he';
+import { useLocation } from 'react-router-dom';
 const Search = props => {
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchField, setSearchField] = useState('');
+  const { pathname } = useLocation();
+  console.log(pathname);
+  useEffect(() => {
+    if (pathname === '/countries') {
+      setOverlayOpen(true);
+    }
+  }, [pathname]);
+
   useEffect(() => {
     if (overlayOpen === true) {
       const overlaySearch = document.getElementById('overlaySearch');
@@ -67,8 +76,8 @@ const Search = props => {
         style={overlayOpen ? { display: 'block' } : { display: 'none' }}
       >
         <div className="searchBar">
-          <i className="menuIcon">
-            <Menu size={24} />
+          <i className="menuIcon" onClick={() => setOverlayOpen(false)}>
+            <ArrowRight size={24} />
           </i>
           <input
             onChange={event => setSearchField(event.target.value)}

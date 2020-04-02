@@ -37,6 +37,7 @@
         flex-direction: row;
         font-size: 14px;
         font-weight: 500;
+        text-decoration: none;
         .icon {
           font-size: 20px;
           margin-left: 30px;
@@ -52,6 +53,12 @@
           color: var(--text);
           font-weight: 200;
         }
+        &.selected {
+          .title {
+            color: #ff416c;
+            font-weight: 400;
+          }
+        }
       }
     }
     .donate-btn {
@@ -64,6 +71,7 @@
       font-size: 14px;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
       align-items: center;
+      text-decoration: none;
       cursor: pointer;
       outline: 0px;
       border: 0px;

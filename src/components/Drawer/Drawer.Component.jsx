@@ -173,7 +173,7 @@ const Drawer = props => {
   };
 
   return (
-    <div className={`drawer ${movingClass}`} style={{ top: drawerPosition }}>
+    <div className={`drawer ${movingClass} `} style={{ top: drawerPosition }}>
       <div
         className="drawer-drag"
         onTouchStart={event => setTouchStart(event.touches[0].screenY)}
@@ -191,6 +191,7 @@ const Drawer = props => {
           setMovingClass('transitioning');
           if (touchPosition < touchStart) {
             setDrawerPosition('1vh');
+            setMovingClass('open');
           } else {
             setDrawerPosition(
               document.documentElement.clientHeight * 0.8 + 'px'
