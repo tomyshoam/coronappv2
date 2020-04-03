@@ -5,6 +5,7 @@
   --icon: #afafaf;
   --border: #efefef;
   --hover: #f3f3f3;
+  --darker: #e5e4e5;
 }
 
 html body.dark {
@@ -13,6 +14,7 @@ html body.dark {
   --text: #dedede;
   --border: #292929;
   --hover: #313238;
+  --darker: rgba(16, 16, 16, 0.73);
 }
 body {
   margin: 0;

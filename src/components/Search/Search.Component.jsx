@@ -11,7 +11,6 @@ const Search = props => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchField, setSearchField] = useState('');
   const { pathname } = useLocation();
-  console.log(pathname);
   useEffect(() => {
     if (pathname === '/countries') {
       setOverlayOpen(true);
@@ -82,7 +81,6 @@ const Search = props => {
           <input
             onChange={event => setSearchField(event.target.value)}
             id="overlaySearch"
-            onFocus={() => console.log('You focused the searchbar')}
             type="text"
             className="searchBar-input"
             placeholder="חיפוש לפי מדינה..."
@@ -202,7 +200,6 @@ const Search = props => {
         <div
           onClick={() => {
             setOverlayOpen(true);
-            console.log(document.getElementById('overlaySearch'));
             const overlaySearch = document.getElementById('overlaySearch');
             overlaySearch.click();
             overlaySearch.focus();

@@ -26,6 +26,7 @@ if (isAllowed) {
 const Register = props => {
   const [notifications, setNotifications] = useState();
   const [messaging, setMessaging] = useState();
+  const [formSubmited, setFormSubmited] = useState(false);
   const [installState, setInstallState] = useState(
     localStorage.getItem('installed') ? 'completed' : 'disabled'
   );
@@ -66,7 +67,6 @@ const Register = props => {
       <div
         className="register-popup-item"
         onClick={() => {
-          console.log('works');
           if (installState === '') {
             installEvent.prompt();
             installEvent.userChoice.then(choiceResult => {
@@ -93,12 +93,10 @@ const Register = props => {
             messaging
               .requestPermission()
               .then(() => {
-                console.log('have permission');
                 setNotifications(true);
                 return messaging.getToken();
               })
               .then(token => {
-                console.log(token);
                 firebase
                   .database()
                   .ref('notifications/' + token)
@@ -125,7 +123,25 @@ const Register = props => {
       <div className="register-popup-item">
         <Mail className="icon" />
         <p className="action">קבלו עדכונים למייל</p>
-        <div className="status"></div>
+        <div className={`status ${formSubmited ? 'completed' : ''}`}></div>
+      </div>
+      <div
+        className="register-popup-form"
+        style={{ transform: `${formSubmited ? 'scaleY(0)' : 'scaleY(1)'}` }}
+      >
+        <input type="text" name="First name" id="" placeholder="שם פרטי" />
+        <input type="text" name="Last name" id="" placeholder="שם משפחה" />
+        <input type="email" name="email" id="" placeholder="אימייל" />
+        <button
+          type="submit"
+          class="form-button"
+          onClick={e => {
+            e.preventDefault();
+            setFormSubmited(true);
+          }}
+        >
+          הישארו מעודכנים
+        </button>
       </div>
     </div>
   );

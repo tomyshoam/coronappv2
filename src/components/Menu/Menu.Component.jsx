@@ -68,14 +68,20 @@ const Menu = props => {
             <FontAwesomeIcon icon={faCode} className="icon" />
             <p className="title">הטביעו</p>
           </div>
-          <div className="section-item">
+          <a
+            className="section-item"
+            href="https://github.com/tomyshoam/coronappv2/blob/master/README.md"
+          >
             <FontAwesomeIcon icon={faBook} className="icon" />
             <p className="title">קרדיט ומקורות</p>
-          </div>
-          <div className="section-item">
+          </a>
+          <a
+            className="section-item"
+            href="https://www.health.gov.il/Subjects/disease/corona/Pages/default.aspx"
+          >
             <FontAwesomeIcon icon={faPlusSquare} className="icon" />
             <p className="title">דווחו על מקרה</p>
-          </div>
+          </a>
           <a className="section-item" href="mailto: tomyshoam@gmail.com">
             <FontAwesomeIcon icon={faAt} className="icon" />
             <p className="title">צור קשר</p>
