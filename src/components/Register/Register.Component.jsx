@@ -53,96 +53,132 @@ const Register = props => {
     }
   }, []);
   return (
-    <div
-      className="register-popup"
-      style={{ display: props.registerOpen ? 'block' : 'none' }}
-    >
-      <div className="register-popup-header">
-        <div className="register-popup-title">הישארו מעודכנים</div>
-        <X
-          className="register-popup-close"
-          onClick={() => props.setRegisterOpen(false)}
-        />
-      </div>
+    <div className="">
       <div
-        className="register-popup-item"
-        onClick={() => {
-          if (installState === '') {
-            installEvent.prompt();
-            installEvent.userChoice.then(choiceResult => {
-              if (choiceResult.outcome === 'accepted') {
-                setInstallState('completed');
-                localStorage.setItem('installed', true);
-              }
-            });
-          }
+        className="register-popup"
+        style={{
+          display:
+            props.registerOpen && document.body.clientWidth > 500
+              ? 'flex'
+              : props.registerOpen
+              ? 'block'
+              : 'none'
         }}
       >
-        <Download className="icon" />
-        <p className="action">התקינו את האתר</p>
-        <div className={`status ${installState}`}>
-          {installState === 'disabled' ? (
-            <div className="disabled"></div>
+        <div className="register-popup-header">
+          <div className="register-popup-title">הישארו מעודכנים</div>
+          {document.body.clientWidth > 500 ? (
+            <p className="register-popup-phrase">
+              קבלו עדכונים לגבני התפכות מצב הקורונה בעולם
+            </p>
           ) : null}
+
+          <X
+            className="register-popup-close"
+            onClick={() => props.setRegisterOpen(false)}
+          />
         </div>
-      </div>
-      <div
-        className="register-popup-item"
-        onClick={() => {
-          if (isAllowed && !notifications) {
-            messaging
-              .requestPermission()
-              .then(() => {
-                setNotifications(true);
-                return messaging.getToken();
-              })
-              .then(token => {
-                firebase
-                  .database()
-                  .ref('notifications/' + token)
-                  .set({
-                    token
+        <div className="register-popup-container">
+          <div
+            className="register-popup-item"
+            onClick={() => {
+              if (installState === '') {
+                installEvent.prompt();
+                installEvent.userChoice.then(choiceResult => {
+                  if (choiceResult.outcome === 'accepted') {
+                    setInstallState('completed');
+                    localStorage.setItem('installed', true);
+                  }
+                });
+              }
+            }}
+          >
+            <Download className="icon" />
+            <p className="action">התקינו את האתר</p>
+            <div className={`status ${installState}`}>
+              {installState === 'disabled' ? (
+                <div className="disabled"></div>
+              ) : null}
+            </div>
+          </div>
+          <div
+            className="register-popup-item"
+            onClick={() => {
+              if (isAllowed && !notifications) {
+                messaging
+                  .requestPermission()
+                  .then(() => {
+                    setNotifications(true);
+                    return messaging.getToken();
+                  })
+                  .then(token => {
+                    firebase
+                      .database()
+                      .ref('notifications/' + token)
+                      .set({
+                        token
+                      });
+                  })
+                  .catch(err => {
+                    console.log(err);
                   });
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          }
-        }}
-      >
-        <MessageSquare className="icon" />
-        <p className="action">קבלו עדכונים</p>
-        <div
-          className={`status ${isAllowed ? '' : 'disabled'}${
-            isAllowed && notifications ? 'completed' : ''
-          }`}
-        >
-          {isAllowed ? null : <div className="disabled"></div>}
+              }
+            }}
+          >
+            <MessageSquare className="icon" />
+            <p className="action">קבלו עדכונים</p>
+            <div
+              className={`status ${isAllowed ? '' : 'disabled'}${
+                isAllowed && notifications ? 'completed' : ''
+              }`}
+            >
+              {isAllowed ? null : <div className="disabled"></div>}
+            </div>
+          </div>
+          <div className="register-popup-item">
+            <Mail className="icon" />
+            <p className="action">קבלו עדכונים למייל</p>
+            <div className={`status ${formSubmited ? 'completed' : ''}`}></div>
+          </div>
+          <div
+            className="register-popup-form"
+            style={{ transform: `${formSubmited ? 'scaleY(0)' : 'scaleY(1)'}` }}
+          >
+            <input
+              type="text"
+              name="First name"
+              id="fname"
+              placeholder="שם פרטי"
+            />
+            <input
+              type="text"
+              name="Last name"
+              id="lname"
+              placeholder="שם משפחה"
+            />
+            <input type="email" name="email" id="email" placeholder="אימייל" />
+            <button
+              type="submit"
+              className="form-button"
+              onClick={e => {
+                e.preventDefault();
+                setFormSubmited(true);
+              }}
+            >
+              הישארו מעודכנים
+            </button>
+          </div>
         </div>
       </div>
-      <div className="register-popup-item">
-        <Mail className="icon" />
-        <p className="action">קבלו עדכונים למייל</p>
-        <div className={`status ${formSubmited ? 'completed' : ''}`}></div>
-      </div>
-      <div
-        className="register-popup-form"
-        style={{ transform: `${formSubmited ? 'scaleY(0)' : 'scaleY(1)'}` }}
-      >
-        <input type="text" name="First name" id="" placeholder="שם פרטי" />
-        <input type="text" name="Last name" id="" placeholder="שם משפחה" />
-        <input type="email" name="email" id="" placeholder="אימייל" />
-        <button
-          type="submit"
-          class="form-button"
-          onClick={e => {
-            e.preventDefault();
-            setFormSubmited(true);
+      {document.body.clientWidth > 500 ? (
+        <div
+          style={{ display: props.registerOpen ? 'block' : 'none' }}
+          className="register-overlay"
+          onClick={() => {
+            props.setRegisterOpen(false);
           }}
-        >
-          הישארו מעודכנים
-        </button>
-      </div>
+        ></div>
+      ) : null}
     </div>
   );
 };

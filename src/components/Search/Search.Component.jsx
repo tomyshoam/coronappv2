@@ -11,6 +11,13 @@ const Search = props => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchField, setSearchField] = useState('');
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (document.body.scrollWidth > 500) {
+      setOverlayOpen(true);
+    }
+  }, []);
+
   useEffect(() => {
     if (pathname === '/countries') {
       setOverlayOpen(true);
@@ -148,7 +155,11 @@ const Search = props => {
                     className="searchItem"
                     key={index}
                     onClick={() => {
-                      setOverlayOpen(false);
+                      if (document.body.scrollWidth > 500) {
+                        setOverlayOpen(true);
+                      } else {
+                        setOverlayOpen(false);
+                      }
                       props.setSelected(country.location.isoCode);
                       props.setGeoloc([
                         country.location.lat,

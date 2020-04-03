@@ -4,6 +4,7 @@ import { MapComponent } from './components/Map';
 import { Search } from './components/Search';
 import { Drawer } from './components/Drawer';
 import { Menu } from './components/Menu';
+import { MenuIcon } from './components/MenuIcon';
 import { BrowserRouter } from 'react-router-dom';
 
 function App() {
@@ -44,6 +45,10 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        {document.body.clientWidth > 500 ? (
+          <MenuIcon menu={menu} setMenu={setMenu} />
+        ) : null}
+
         <Menu
           menu={menu}
           setMenu={setMenu}
@@ -74,7 +79,7 @@ function App() {
           }
           data={!loading ? data : null}
         />
-        <Drawer data={!loading ? data : null} selected={selected} />
+        <Drawer selected={selected} />
       </BrowserRouter>
     </div>
   );

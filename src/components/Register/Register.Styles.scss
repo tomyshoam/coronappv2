@@ -4,6 +4,16 @@
   height: 100vh;
   z-index: 99999;
   background: var(--background);
+  @media only screen and (min-width: 600px) {
+    width: 750px;
+    height: 600px;
+    align-items: center;
+    bottom: 50%;
+    right: 50%;
+    transform: translateX(50%) translateY(50%);
+    border-radius: 15px;
+    overflow: hidden;
+  }
   &-header {
     width: 100%;
     padding: 0px;
@@ -14,15 +24,42 @@
     align-items: center;
     background: #ff416c;
     color: white;
+    @media only screen and (min-width: 600px) {
+      width: 33%;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &-container {
+    @media only screen and (min-width: 600px) {
+      width: 50%;
+      margin: 0 auto;
+      align-self: flex-start;
+    }
   }
   &-title {
     font-size: 16px;
     font-weight: 500;
     width: 100%;
     padding: 20px;
+    @media only screen and (min-width: 600px) {
+      font-size: 40px;
+      width: auto;
+      padding: 10px 20px;
+    }
+  }
+  &-phrase {
+    padding: 0 20px;
   }
   &-close {
     padding: 20px;
+    @media only screen and (min-width: 600px) {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
   &-item {
     width: 90%;
@@ -31,7 +68,11 @@
     color: var(--text);
     display: flex;
     align-items: center;
-    margin: 20px auto 40px auto;
+    margin: 20px auto 20px auto;
+    @media only screen and (min-width: 600px) {
+      width: 100%;
+      margin: 20px auto 30px auto;
+    }
     .icon {
       margin: 0 20px 0 15px;
       height: 20px;
@@ -75,13 +116,16 @@
   &-form {
     background: var(--hover);
     width: 90%;
-    margin: -40px auto;
+    margin: -20px auto;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     transition: all 0.5s;
     transform-origin: top center;
     transform: scaleY(1);
+    @media only screen and (min-width: 600px) {
+      width: 100%;
+    }
     & > input {
       border: none;
       background: var(--darker);
@@ -115,4 +159,13 @@
       }
     }
   }
+}
+.register-overlay {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.38);
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 95998;
 }

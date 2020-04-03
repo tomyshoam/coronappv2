@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Drawer.Styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { X } from 'react-feather';
 import Moment from 'react-moment';
 import 'moment/locale/he';
 import { Line } from 'react-chartjs-2';
@@ -16,9 +17,19 @@ const Drawer = props => {
   const [chartClass, setChartClass] = useState('infected');
   const [compareFilterIsOpen, setCompareFilterIsOpen] = useState(false);
   const [compareClass, setCompareClass] = useState('none');
+  const [desktopClose, setDesktopClose] = useState(true);
   const [dataset, setDataset] = useState();
   useEffect(() => {
+    if (document.body.clientWidth > 500) {
+      setDrawerPosition('1vh');
+    }
+  }, []);
+
+  useEffect(() => {
     async function fetchUrl(selected) {
+      if (selected) {
+        setDesktopClose(false);
+      }
       setLoadingData(true);
       setDrawerPosition(document.documentElement.clientHeight * 0.8 + 'px');
       const response = await fetch(
@@ -31,7 +42,11 @@ const Drawer = props => {
       );
       const json = await response.json();
       setSelectedData(json);
-      setDrawerPosition(document.documentElement.clientHeight * 0.65 + 'px');
+      if (document.body.clientWidth > 500) {
+        setDrawerPosition('1vh');
+      } else {
+        setDrawerPosition(document.documentElement.clientHeight * 0.65 + 'px');
+      }
       setLoadingData(false);
       setDataset();
       setChartClass('infected');
@@ -39,6 +54,7 @@ const Drawer = props => {
     }
     fetchUrl(props.selected);
   }, [props.selected]);
+
   const colorInfected = {
     primary: 'rgba(255, 65, 108, 0.2)',
     secondary: 'rgba(255, 65, 108, 1)'
@@ -173,7 +189,23 @@ const Drawer = props => {
   };
 
   return (
-    <div className={`drawer ${movingClass} `} style={{ top: drawerPosition }}>
+    <div
+      className={`drawer ${movingClass} `}
+      style={{
+        top: drawerPosition,
+        display: desktopClose && document.body.clientWidth > 500 ? 'none' : ''
+      }}
+    >
+      {document.body.clientWidth > 500 ? (
+        <div
+          className="closeButton"
+          onClick={() => {
+            setDesktopClose(true);
+          }}
+        >
+          <X className="icon" />
+        </div>
+      ) : null}
       <div
         className="drawer-drag"
         onTouchStart={event => setTouchStart(event.touches[0].screenY)}

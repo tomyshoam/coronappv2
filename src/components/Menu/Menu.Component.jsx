@@ -50,7 +50,7 @@ const Menu = props => {
           <div
             className="section-item"
             onClick={() => {
-              props.setSelected(null);
+              props.setSelected('global');
               props.setMenu(!props.menu);
             }}
           >
@@ -59,7 +59,10 @@ const Menu = props => {
           </div>
           <div
             className="section-item"
-            onClick={() => setRegisterOpen(!registerOpen)}
+            onClick={() => {
+              props.setMenu(!props.menu);
+              setRegisterOpen(!registerOpen);
+            }}
           >
             <FontAwesomeIcon icon={faBell} className="icon" />
             <p className="title">הישארו מעודכנים</p>

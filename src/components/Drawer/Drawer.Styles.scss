@@ -10,9 +10,15 @@
   height: 100vh;
   width: 100vw;
   border-radius: 25px 25px 0 0;
-  background: var(--card);
+  background: var(--background);
   z-index: 1000;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+  @media only screen and (min-width: 600px) {
+    width: 90vw;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 4000;
+  }
   &.transitioning {
     transition: all 0.1s ease-in-out;
   }
@@ -35,6 +41,21 @@
       background: var(--icon);
     }
   }
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      color: var(--text);
+    }
+  }
   .countryContent {
     height: 100%;
     width: 100%;
@@ -42,6 +63,9 @@
     overflow-x: hidden;
     display: flex;
     justify-content: center;
+    @media only screen and (min-width: 600px) {
+      overflow-y: scroll;
+    }
     &::-webkit-scrollbar {
       display: none;
     }
@@ -104,7 +128,7 @@
         align-items: center;
         justify-content: center;
         flex: none;
-        background: var(--card);
+        background: var(--background);
         border: 1px solid var(--border);
         border-radius: 40px;
         padding-top: 20px;
