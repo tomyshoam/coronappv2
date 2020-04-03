@@ -26,7 +26,9 @@ if (isAllowed) {
 const Register = props => {
   const [notifications, setNotifications] = useState();
   const [messaging, setMessaging] = useState();
-  const [installState, setInstallState] = useState('disabled');
+  const [installState, setInstallState] = useState(
+    localStorage.getItem('installed') ? 'completed' : 'disabled'
+  );
   const [installEvent, setInstallEvent] = useState();
   useEffect(() => {
     /**
