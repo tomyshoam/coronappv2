@@ -72,7 +72,7 @@ const Register = props => {
       <div
         className="register-popup-item"
         onClick={() => {
-          if (!installState === 'disabled') {
+          if (installState === '') {
             installEvent.prompt();
             installState.userChoice.then(choiceResult => {
               if (choiceResult.outcome === 'accepted') {
