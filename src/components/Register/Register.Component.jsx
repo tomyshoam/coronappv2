@@ -46,9 +46,11 @@ const Register = props => {
       setMessaging(messaging);
 
       navigator.serviceWorker.getRegistrations().then(registrations => {
-        if (registrations.length > 0) {
-          setNotifications(true);
-        }
+        registrations.map(el => {
+          if (el.active.scriptURL.includes('/firebase-messaging-sw.js')) {
+            setNotifications(true);
+          }
+        });
       });
     }
   }, []);
