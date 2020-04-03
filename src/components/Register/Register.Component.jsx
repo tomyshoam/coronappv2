@@ -31,12 +31,6 @@ const Register = props => {
   );
   const [installEvent, setInstallEvent] = useState();
   useEffect(() => {
-    /**
-     * no event not compatable
-     * if event is fired compatable
-     *  install and save to memory that its intsalled
-     *  if event is fired again === not installed
-     */
     window.addEventListener('beforeinstallprompt', e => {
       localStorage.setItem('installed', false);
       setInstallState('');
@@ -72,6 +66,7 @@ const Register = props => {
       <div
         className="register-popup-item"
         onClick={() => {
+          console.log('works');
           if (installState === '') {
             installEvent.prompt();
             installState.userChoice.then(choiceResult => {
@@ -86,9 +81,9 @@ const Register = props => {
         <Download className="icon" />
         <p className="action">התקינו את האתר</p>
         <div className={`status ${installState}`}>
-          {!installState === 'disabled' ? null : (
+          {installState === 'disabled' ? (
             <div className="disabled"></div>
-          )}
+          ) : null}
         </div>
       </div>
       <div

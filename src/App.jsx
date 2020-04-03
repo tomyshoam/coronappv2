@@ -7,11 +7,6 @@ import { Menu } from './components/Menu';
 import { BrowserRouter } from 'react-router-dom';
 
 function App() {
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    alert(e);
-  });
-
   const [geoloc, setGeoloc] = useState(null);
   const [selected, setSelected] = useState(null);
   const [menu, setMenu] = useState(false);
