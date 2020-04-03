@@ -36,6 +36,7 @@ const Register = props => {
      *  if event is fired again === not installed
      */
     window.addEventListener('beforeinstallprompt', e => {
+      localStorage.setItem('installed', false);
       setInstallState('');
       e.preventDefault();
       setInstallEvent(e);
@@ -71,6 +72,12 @@ const Register = props => {
         onClick={() => {
           if (!installState === 'disabled') {
             installEvent.prompt();
+            installState.userChoice.then(choiceResult => {
+              if (choiceResult.outcome === 'accepted') {
+                setInstallState('completed');
+                localStorage.setItem('installed', true);
+              }
+            });
           }
         }}
       >
