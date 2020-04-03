@@ -1,6 +1,6 @@
 import './Register.Styles.scss';
 import React from 'react';
-import { X, Download, MessageSquare, Mail, Check } from 'react-feather';
+import { X, Download, MessageSquare, Mail } from 'react-feather';
 
 import * as firebase from 'firebase/app';
 import 'firebase/messaging';
