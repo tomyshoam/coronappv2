@@ -9,9 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 function App() {
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
-    console.log(e);
-    console.log(e.compatibale);
-    console.log(e.installable);
+    alert(e);
   });
 
   const [geoloc, setGeoloc] = useState(null);
