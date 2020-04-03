@@ -1,0 +1,76 @@
+.register-popup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: var(--background);
+  &-header {
+    width: 100%;
+    padding: 0px;
+    font-weight: 500;
+    min-height: 60px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    background: #ff416c;
+    color: white;
+  }
+  &-title {
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    padding: 20px;
+  }
+  &-close {
+    padding: 20px;
+  }
+  &-item {
+    width: 90%;
+    height: 60px;
+    background: var(--hover);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    margin: 20px auto 40px auto;
+    .icon {
+      margin: 0 20px 0 15px;
+      height: 20px;
+    }
+    .action {
+      font-size: 12px;
+      font-weight: 600;
+      flex-grow: 1;
+    }
+    .status {
+      border: 2px solid #aab7c2;
+      height: 29px;
+      width: 29px;
+      border-radius: 50%;
+      margin-left: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .disabled {
+        width: 50%;
+        height: 3px;
+        background: white;
+      }
+      &.disabled {
+        background: red;
+        border: 2px solid red;
+      }
+      &.completed {
+        width: 30px;
+        content: '';
+        height: 40px;
+        border: 0px;
+        background-image: url(/assets/checkmark-success.svg);
+        font-size: 16px;
+        margin-top: 10px;
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Menu.Styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,7 +12,9 @@ import {
   faAt
 } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
+import { Register } from '../Register';
 const Menu = props => {
+  const [registerOpen, setRegisterOpen] = useState(false);
   return (
     <div className="menu">
       <div
@@ -55,7 +57,10 @@ const Menu = props => {
             <FontAwesomeIcon icon={faGlobeEurope} className="icon" />
             <p className="title">גלובלי</p>
           </div>
-          <div className="section-item">
+          <div
+            className="section-item"
+            onClick={() => setRegisterOpen(!registerOpen)}
+          >
             <FontAwesomeIcon icon={faBell} className="icon" />
             <p className="title">הישארו מעודכנים</p>
           </div>
@@ -103,6 +108,7 @@ const Menu = props => {
           </div>
         </div>
       </div>
+      <Register registerOpen={registerOpen} setRegisterOpen={setRegisterOpen} />
     </div>
   );
 };

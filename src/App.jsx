@@ -5,6 +5,7 @@ import { Search } from './components/Search';
 import { Drawer } from './components/Drawer';
 import { Menu } from './components/Menu';
 import { BrowserRouter } from 'react-router-dom';
+
 function App() {
   const [geoloc, setGeoloc] = useState(null);
   const [selected, setSelected] = useState(null);
