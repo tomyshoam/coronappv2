@@ -1,7 +1,3 @@
-// import * as firebase from 'firebase/app';
-// import 'firebase/messaging';
-// import 'firebase/database';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

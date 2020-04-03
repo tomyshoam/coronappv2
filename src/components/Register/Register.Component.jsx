@@ -69,7 +69,7 @@ const Register = props => {
           console.log('works');
           if (installState === '') {
             installEvent.prompt();
-            installState.userChoice.then(choiceResult => {
+            installEvent.userChoice.then(choiceResult => {
               if (choiceResult.outcome === 'accepted') {
                 setInstallState('completed');
                 localStorage.setItem('installed', true);
