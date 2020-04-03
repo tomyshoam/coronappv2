@@ -26,8 +26,20 @@ if (isAllowed) {
 const Register = props => {
   const [notifications, setNotifications] = useState();
   const [messaging, setMessaging] = useState();
-
+  const [installState, setInstallState] = useState('disabled');
+  const [installEvent, setInstallEvent] = useState();
   useEffect(() => {
+    /**
+     * no event not compatable
+     * if event is fired compatable
+     *  install and save to memory that its intsalled
+     *  if event is fired again === not installed
+     */
+    window.addEventListener('beforeinstallprompt', e => {
+      setInstallState('');
+      e.preventDefault();
+      setInstallEvent(e);
+    });
     if (isAllowed) {
       const messaging = firebase.messaging();
       messaging.usePublicVapidKey(
@@ -54,10 +66,21 @@ const Register = props => {
           onClick={() => props.setRegisterOpen(false)}
         />
       </div>
-      <div className="register-popup-item">
+      <div
+        className="register-popup-item"
+        onClick={() => {
+          if (!installState === 'disabled') {
+            installEvent.prompt();
+          }
+        }}
+      >
         <Download className="icon" />
         <p className="action">התקינו את האתר</p>
-        <div className="status"></div>
+        <div className={`status ${installState}`}>
+          {!installState === 'disabled' ? null : (
+            <div className="disabled"></div>
+          )}
+        </div>
       </div>
       <div
         className="register-popup-item"
