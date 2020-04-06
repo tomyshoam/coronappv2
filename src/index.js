@@ -4,6 +4,8 @@ import './index.css';
 import App from './App.jsx';
 import * as serviceWorker from './serviceWorker';
 
+console.log(process.env.REACT_APP_FIREBASE_PROJECT_ID);
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
