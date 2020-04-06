@@ -8,14 +8,14 @@ import 'firebase/database';
 import { useState } from 'react';
 import { useEffect } from 'react';
 let firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_KEY,
-  databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+  apiKey: 'AIzaSyBc3-u9epJH1uL8AYWY9iKLayfLgSkjUgc',
+  authDomain: 'coronapp-ff886.firebaseapp.com',
+  databaseURL: 'https://coronapp-ff886.firebaseio.com',
+  projectId: 'coronapp-ff886',
+  storageBucket: 'coronapp-ff886.appspot.com',
+  messagingSenderId: '718942130305',
+  appId: '1:718942130305:web:a5695a251dd507aa59fd80',
+  measurementId: 'G-P1KP449GEK',
 };
 const isAllowed = 'serviceWorker' in navigator && 'PushManager' in window;
 // Initialize Firebase
@@ -23,7 +23,7 @@ if (isAllowed) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const Register = props => {
+const Register = (props) => {
   const [notifications, setNotifications] = useState();
   const [messaging, setMessaging] = useState();
   const [formSubmited, setFormSubmited] = useState(false);
@@ -32,7 +32,7 @@ const Register = props => {
   );
   const [installEvent, setInstallEvent] = useState();
   useEffect(() => {
-    window.addEventListener('beforeinstallprompt', e => {
+    window.addEventListener('beforeinstallprompt', (e) => {
       localStorage.setItem('installed', false);
       setInstallState('');
       e.preventDefault();
@@ -45,8 +45,8 @@ const Register = props => {
       );
       setMessaging(messaging);
 
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.map(el => {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.map((el) => {
           if (el.active.scriptURL.includes('/firebase-messaging-sw.js')) {
             setNotifications(true);
           }
@@ -64,7 +64,7 @@ const Register = props => {
               ? 'flex'
               : props.registerOpen
               ? 'block'
-              : 'none'
+              : 'none',
         }}
       >
         <div className="register-popup-header">
@@ -86,7 +86,7 @@ const Register = props => {
             onClick={() => {
               if (installState === '') {
                 installEvent.prompt();
-                installEvent.userChoice.then(choiceResult => {
+                installEvent.userChoice.then((choiceResult) => {
                   if (choiceResult.outcome === 'accepted') {
                     setInstallState('completed');
                     localStorage.setItem('installed', true);
@@ -113,15 +113,15 @@ const Register = props => {
                     setNotifications(true);
                     return messaging.getToken();
                   })
-                  .then(token => {
+                  .then((token) => {
                     firebase
                       .database()
                       .ref('notifications/' + token)
                       .set({
-                        token
+                        token,
                       });
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     console.log(err);
                   });
               }
@@ -162,7 +162,7 @@ const Register = props => {
             <button
               type="submit"
               className="form-button"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setFormSubmited(true);
               }}
